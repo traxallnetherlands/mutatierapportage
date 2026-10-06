@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Mutatiearapportage</title>
+    <title>Mutatierapportage</title>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
     <style>
@@ -386,6 +386,66 @@
       .empty {
         display: none;
       }
+      .manual {
+        width: 100%;
+        margin: 0 0 20px;
+      }
+      .manual summary {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 58px;
+        width: auto;
+        padding: 0 18px;
+        color: var(--blue);
+        background: #eef6ff;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        list-style: none;
+      }
+      .manual summary::-webkit-details-marker {
+        display: none;
+      }
+      .manual[open] {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+      .manual[open] summary {
+        display: flex;
+        width: 100%;
+        border-radius: 10px 10px 0 0;
+        box-shadow: none;
+      }
+      .manualArrow {
+        display: inline-block;
+        transition: transform 0.18s ease;
+      }
+      .manual[open] .manualArrow {
+        transform: rotate(90deg);
+      }
+      .manualContent {
+        padding: 20px 24px 24px;
+        color: var(--ink);
+        background: #fff;
+        line-height: 1.6;
+      }
+      .manualContent p {
+        margin: 0 0 14px;
+      }
+      .manualContent h3 {
+        margin: 20px 0 6px;
+        color: var(--blue);
+        font-size: 15px;
+      }
+      .manualContent ul {
+        margin: 6px 0 16px;
+        padding-left: 22px;
+      }
       @media (max-width: 1000px) {
         .periodRow {
           grid-template-columns: 1fr;
@@ -456,8 +516,6 @@
           <div class="uploads">
             <div class="upload" id="boxMovement">
               <b>Voertuighistoriek</b
-              ><small
-                >Volledige poolmutaties en aanvulling huurautoberijder.</small
               ><input id="movementFile" type="file" accept=".xlsx,.xls" /><label
                 class="fileButton"
                 for="movementFile"
@@ -467,7 +525,6 @@
             </div>
             <div class="upload" id="boxRecalc">
               <b>Contractherberekeningen</b
-              ><small>Voor contractaanpassingen.</small
               ><input id="recalcFile" type="file" accept=".xlsx,.xls" /><label
                 class="fileButton"
                 for="recalcFile"
@@ -477,7 +534,6 @@
             </div>
             <div class="upload" id="boxFleet">
               <b>Full Fleetoverview</b
-              ><small>Voor inzet- en aanvullende gegevens.</small
               ><input id="fleetFile" type="file" accept=".xlsx,.xls" /><label
                 class="fileButton"
                 for="fleetFile"
@@ -549,6 +605,80 @@
           </table>
         </div>
       </section>
+      <details class="manual">
+        <summary>
+          <span>Handleiding</span><span class="manualArrow">&gt;</span>
+        </summary>
+        <div class="manualContent">
+          <p>
+            Upload bestanden <strong>Voertuighistoriek</strong>,
+            <strong>Contractherberekeningen</strong> en
+            <strong>Full Fleetoverview</strong> om direct een mutatierapportage
+            voor je klant te krijgen. Deze bevat:
+          </p>
+          <ul>
+            <li>Contractmutaties</li>
+            <li>Poolmutaties</li>
+            <li>Entiteitmutaties</li>
+            <li>Kostenplaatsmutaties</li>
+          </ul>
+          <p>
+            Selecteer je periode voor mutaties in de datumvakjes, kies een taal
+            (standaard is Nederlands) en druk op Verwerken om meteen resultaten
+            te kunnen zien en exporteren naar Excel. Controleer altijd de data
+            van dit bestand.
+          </p>
+          <p>
+            Zorg ervoor dat deze 3 bestanden ingeregeld staan op een vaste datum
+            per maand voor de meest accurate mutatierapportage. Als je geen
+            vaste datum hebt moet je ervoor zorgen dat de 3 bestanden op
+            dezelfde datum aangemaakt worden, anders loop je het risico mutaties
+            mis te lopen of verkeerde data te rapporteren.
+          </p>
+          <h3><strong>Voertuighistoriek</strong></h3>
+          <p>
+            Hierin staan de historische voertuigmutaties van de afgelopen 12
+            maanden van je klant. Dit bestand kun je inregelen per maand via
+            <strong>Lijst klanten &gt; Je klant</strong> en vervolgens iedere
+            maand downloaden bij <strong>Created Reports</strong> onder je
+            klant. Bij de aanmaak noem je het bestand
+            <strong>Voertuighistoriek</strong>, in veld
+            <strong>Query</strong> selecteer je
+            <strong>etat_historique_vehicule</strong> en in veld
+            <strong>Periode</strong> selecteer je
+            <strong>Vorige 12 maanden</strong>.
+          </p>
+          <h3><strong>Contractherberekeningen</strong></h3>
+          <p>
+            Hierin staan alle contractherberekeningen van de afgelopen 12
+            maanden van alle klanten. De data voor de juiste klant wordt hier
+            automatisch uitgehaald aan de hand van je
+            <strong>Voertuighistoriek</strong> en
+            <strong>Full Fleetoverview</strong>, dus je hoeft niets te
+            filteren/verwijderen.
+          </p>
+          <p>
+            Dit bestand kun je downloaden bij
+            <strong>Created Reports</strong> onder klant
+            <strong>TRAXALL</strong>. Deze wordt standaard op de 1e van de maand
+            gedraaid, maar als je de rapportage later in de maand moet draaien
+            kun je deze ook via
+            <strong>Lijst klanten &gt; TRAXALL</strong> handmatig genereren om
+            de meest up-to-date versie te krijgen. Dit wordt voor iedere klant
+            gebruikt, dus pas de instellingen van deze rapportage niet aan.
+          </p>
+          <h3><strong>Full Fleetoverview</strong></h3>
+          <p>
+            Dit bestand staat waarschijnlijk al per maand ingeregeld voor je
+            klant en kun je downloaden bij <strong>Created Reports</strong>,
+            maar als de aanmaakdatum niet hetzelfde is als de datum van de
+            andere bestanden moet je hiervan een kopie maken die wel op de
+            juiste datum gegenereerd wordt genaamd
+            <strong>Full_Fleetoverview_Mutatierapport</strong>. Dit kan bij
+            <strong>Lijst klanten &gt; Je klant</strong>.
+          </p>
+        </div>
+      </details>
     </div>
     <script>
       const S = {
