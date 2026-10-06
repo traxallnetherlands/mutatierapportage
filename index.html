@@ -113,7 +113,7 @@
       }
       .upload {
         position: relative;
-        min-height: 68px;
+        min-height: 80px;
         padding: 8px 16px 6px;
         text-align: center;
         background: var(--soft);
@@ -150,8 +150,8 @@
       }
       .upload small {
         display: block;
-        min-height: 18px;
-        margin: 4px 0 1px;
+        min-height: 0;
+        margin: 0;
         color: var(--muted);
         line-height: 1.35;
       }
@@ -168,7 +168,7 @@
         justify-content: center;
         min-width: 190px;
         min-height: 38px;
-        margin-top: 0;
+        margin-top: 2px;
         padding: 8px 13px;
         color: var(--blue);
         font-weight: 700;
@@ -302,11 +302,11 @@
       }
       .stats {
         display: grid;
-        grid-template-columns: repeat(4, 105px);
-        gap: 12px;
+        grid-template-columns: repeat(6, minmax(68px, 88px));
+        gap: 8px;
       }
       .stat {
-        padding: 10px 12px;
+        padding: 10px 6px;
         text-align: center;
         background: var(--soft);
         border: 1px solid var(--line);
@@ -497,7 +497,10 @@
           width: 100%;
         }
       }
-    </style>
+    
+.tools-back-link{justify-self:end;color:#213153;text-decoration:none;font-size:14px;font-weight:700;white-space:nowrap}.tools-back-link:hover{text-decoration:underline;color:#18243d}.tools-back-link:focus-visible{outline:2px solid #f59e0b;outline-offset:4px;border-radius:3px}
+@media(max-width:650px){.tools-back-link{justify-self:center;white-space:normal;text-align:center}}
+</style>
   </head>
   <body>
     <header class="brandHeader">
@@ -506,41 +509,46 @@
           <img src="logo-traxall.png" alt="TraXall" />
         </div>
         <div class="brandCopy"><h1>Mutatierapportage</h1></div>
-        <div class="brandSpacer" aria-hidden="true"></div>
+        <a class="tools-back-link" href="https://traxallnetherlands.github.io/traxalltools/">&lt; Terug naar TraXall Tools</a>
       </div>
     </header>
     <div class="main">
       <section class="panel">
         <div class="title">1. Bestanden</div>
         <div class="body">
-<div class="uploads">
-    <div class="upload" id="boxMovement">
-        <b>Voertuighistoriek</b>
-        <input id="movementFile" type="file" accept=".xlsx,.xls" />
-        <label class="fileButton" for="movementFile">
-            Selecteer of sleep bestand
-        </label>
-        <div id="movementState" class="state">Geen bestand</div>
-    </div>
-
-    <div class="upload" id="boxRecalc">
-        <b>Contractherberekeningen</b>
-        <input id="recalcFile" type="file" accept=".xlsx,.xls" />
-        <label class="fileButton" for="recalcFile">
-            Selecteer of sleep bestand
-        </label>
-        <div id="recalcState" class="state">Geen bestand</div>
-    </div>
-
-    <div class="upload" id="boxFleet">
-        <b>Full Fleetoverview</b>
-        <input id="fleetFile" type="file" accept=".xlsx,.xls" />
-        <label class="fileButton" for="fleetFile">
-            Selecteer of sleep bestand
-        </label>
-        <div id="fleetState" class="state">Geen bestand</div>
-    </div>
-</div>
+          <div class="uploads">
+            <div class="upload" id="boxMovement">
+              <b>Voertuighistoriek</b
+              ><small
+                >Volledige poolmutaties en aanvulling huurautoberijder.</small
+              ><input id="movementFile" type="file" accept=".xlsx,.xls" /><label
+                class="fileButton"
+                for="movementFile"
+                >Selecteer of sleep bestand</label
+              >
+              <div id="movementState" class="state">Geen bestand</div>
+            </div>
+            <div class="upload" id="boxRecalc">
+              <b>Contractherberekeningen</b
+              ><small>Voor contractaanpassingen.</small
+              ><input id="recalcFile" type="file" accept=".xlsx,.xls" /><label
+                class="fileButton"
+                for="recalcFile"
+                >Selecteer of sleep bestand</label
+              >
+              <div id="recalcState" class="state">Geen bestand</div>
+            </div>
+            <div class="upload" id="boxFleet">
+              <b>Full Fleetoverview</b
+              ><small>Voor inzet- en aanvullende gegevens.</small
+              ><input id="fleetFile" type="file" accept=".xlsx,.xls" /><label
+                class="fileButton"
+                for="fleetFile"
+                >Selecteer of sleep bestand</label
+              >
+              <div id="fleetState" class="state">Geen bestand</div>
+            </div>
+          </div>
           <div id="msg" class="msg">Upload de drie bestanden.</div>
         </div>
       </section>
@@ -585,6 +593,12 @@
             <div class="stat"><b id="entryCount">0</b><span>INZET</span></div>
             <div class="stat">
               <b id="recalcCount">0</b><span>CONTRACTEN</span>
+            </div>
+            <div class="stat">
+              <b id="entityCount">0</b><span>ENTITEIT</span>
+            </div>
+            <div class="stat">
+              <b id="costCenterCount">0</b><span>KOSTENPLAATS</span>
             </div>
           </div>
         </section>
@@ -1303,6 +1317,8 @@
         $("poolCount").textContent = S.data.filter((r) =>
           ["Voertuig naar pool", "Voertuig uit pool"].includes(r.event),
         ).length;
+        $("entityCount").textContent = S.data.filter((r)=>r.event === "Wijziging entiteit").length;
+        $("costCenterCount").textContent = S.data.filter((r)=>r.event === "Wijziging kostenplaats").length;
         $("entryCount").textContent = S.data.filter((r) =>
           /^Inzet /.test(r.event),
         ).length;
