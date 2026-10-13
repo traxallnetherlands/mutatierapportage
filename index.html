@@ -187,17 +187,17 @@
       }
       .periodRow {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 250px minmax(540px, 1fr) minmax(500px, 550px);
         gap: 20px;
         margin-bottom: 20px;
       }
       .processBox,
       .statsBox {
-        min-height: 116px;
-        padding: 14px 16px;
+        min-height: 108px;
+        padding: 10px 16px;
       }
       .processTitle {
-        margin: 0 0 10px;
+        margin: 0 0 6px;
         color: var(--blue);
         font-size: 16px;
         font-weight: 700;
@@ -206,24 +206,33 @@
       .controls {
         display: flex;
         align-items: end;
-        justify-content: center;
+        justify-content: flex-start;
         gap: 7px;
         flex-wrap: nowrap;
       }
+      .periodBox .controls {
+        display: grid;
+        justify-content: center;
+        align-content: center;
+        min-height: 68px;
+        gap: 6px;
+      }
       .field {
         display: grid;
-        gap: 6px;
-        text-align: center;
+        grid-template-columns: 78px 118px;
+        align-items: center;
+        gap: 8px;
+        text-align: left;
       }
       .field label {
         color: var(--blue);
         font-weight: 700;
-        text-align: center;
+        text-align: right;
       }
       input[type="date"] {
-        width: 112px;
+        width: 118px;
         height: 42px;
-        padding: 0 8px;
+        padding: 0 6px;
         color: var(--ink);
         text-align: center;
         background: #fff;
@@ -241,27 +250,94 @@
         border: 0;
         border-radius: 7px;
       }
-      .controls > .primary,
-      .controls > .secondary {
-        width: 112px;
+      .processingControls {
+        display: grid;
+        grid-template-columns: 230px 104px 112px;
+        align-items: center;
+        justify-content: center;
+        min-height: 68px;
+        gap: 18px;
+      }
+      .mutationOptions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(92px, 1fr));
+        align-content: center;
+        gap: 6px 12px;
+        padding: 0;
+      }
+      .checkOption {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        color: var(--blue);
+        font-weight: 700;
+        white-space: nowrap;
+        cursor: pointer;
+      }
+      .checkOption input {
+        appearance: none;
+        flex: 0 0 17px;
+        min-width: 17px;
+        max-width: 17px;
+        min-height: 17px;
+        max-height: 17px;
+        -webkit-appearance: none;
+        display: grid;
+        place-content: center;
+        width: 17px;
+        height: 17px;
+        margin: 0;
+        background: #fff8e8;
+        border: 1px solid #f7c66f;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+      .checkOption input::before {
+        content: "";
+        width: 8px;
+        height: 4px;
+        border-left: 3px solid #d97706;
+        border-bottom: 3px solid #d97706;
+        transform: translateY(-1px) rotate(-45deg) scale(0);
+        transform-origin: center;
+      }
+      .checkOption input:checked {
+        background: #fff3d8;
+        border-color: var(--orange);
+      }
+      .checkOption input:checked::before {
+        transform: translateY(-1px) rotate(-45deg) scale(1);
+      }
+      .checkOption input:focus-visible {
+        outline: 2px solid #f59e0b55;
+        outline-offset: 2px;
       }
       .languageField {
         display: grid;
+        grid-template-rows: 40px 40px;
+        align-self: center;
+        justify-self: end;
+        width: 96px;
         gap: 6px;
         text-align: center;
+        transform: translateX(6px);
       }
       .languageField > label {
         color: var(--blue);
         font-weight: 700;
+        line-height: 1.2;
       }
-      .languageButtons {
-        display: flex;
-        gap: 5px;
-        justify-content: center;
+      .languageButtons,
+      .actionButtons {
+        display: grid;
+        grid-template-rows: 40px 40px;
+        gap: 6px;
+        justify-content: stretch;
       }
       .flagButton {
         width: 44px;
-        height: 42px;
+        height: 40px;
+        margin: 0 auto;
         padding: 3px;
         border: 2px solid transparent;
         background: #e9edf4;
@@ -276,6 +352,15 @@
       .flagButton.selected {
         border-color: var(--orange);
         background: #fff8e8;
+      }
+      .actionButtons {
+        align-self: center;
+        padding-top: 0;
+      }
+      .actionButtons .primary,
+      .actionButtons .secondary {
+        width: 112px;
+        height: 40px;
       }
       .primary {
         color: #fff;
@@ -302,11 +387,11 @@
       }
       .stats {
         display: grid;
-        grid-template-columns: repeat(6, minmax(68px, 88px));
-        gap: 8px;
+        grid-template-columns: repeat(6, minmax(62px, 78px));
+        gap: 7px;
       }
       .stat {
-        padding: 10px 6px;
+        padding: 10px 4px;
         text-align: center;
         background: var(--soft);
         border: 1px solid var(--line);
@@ -319,7 +404,7 @@
       }
       .stat span {
         color: var(--muted);
-        font-size: 10px;
+        font-size: 9px;
       }
       .resultsHeader {
         display: flex;
@@ -446,12 +531,26 @@
         margin: 6px 0 16px;
         padding-left: 22px;
       }
-      @media (max-width: 1000px) {
+      @media (max-width: 1180px) {
+        .periodRow {
+          grid-template-columns: 250px 1fr;
+        }
+        .statsBox {
+          grid-column: 1 / -1;
+        }
+      }
+      @media (max-width: 760px) {
         .periodRow {
           grid-template-columns: 1fr;
         }
+        .statsBox {
+          grid-column: auto;
+        }
+        .processingControls {
+          grid-template-columns: 1fr 92px 112px;
+        }
         .stats {
-          grid-template-columns: repeat(4, minmax(80px, 1fr));
+          grid-template-columns: repeat(3, minmax(80px, 1fr));
         }
       }
       @media (max-width: 900px) {
@@ -553,37 +652,42 @@
         </div>
       </section>
       <div class="periodRow">
-        <section class="processBox">
-          <div class="processTitle">2. Periode en verwerking</div>
+        <section class="processBox periodBox">
+          <div class="processTitle">2. Periode</div>
           <div class="controls">
             <div class="field">
-              <label>Vanaf</label><input id="fromDate" type="date" />
+              <label for="fromDate">Vanaf:</label><input id="fromDate" type="date" />
             </div>
             <div class="field">
-              <label>Tot en met</label><input id="toDate" type="date" />
+              <label for="toDate">Tot en met:</label><input id="toDate" type="date" />
+            </div>
+          </div>
+        </section>
+        <section class="processBox processingBox">
+          <div class="processTitle">3. Verwerking</div>
+          <div class="processingControls">
+            <div class="mutationOptions">
+              <label class="checkOption"><input id="includePool" type="checkbox" checked />Pool</label>
+              <label class="checkOption"><input id="includeEntry" type="checkbox" checked />Inzet</label>
+              <label class="checkOption"><input id="includeContract" type="checkbox" checked />Contract</label>
+              <label class="checkOption"><input id="includeEntity" type="checkbox" checked />Entiteit</label>
+              <label class="checkOption"><input id="includeCostCenter" type="checkbox" checked />Kostenplaats</label>
+              <label class="checkOption"><input id="showPlateDashes" type="checkbox" />Kenteken strepen</label>
             </div>
             <div class="languageField">
-              <label>Taal rapportage</label>
               <div class="languageButtons">
-                <button
-                  type="button"
-                  class="flagButton selected"
-                  id="langNl"
-                  data-lang="nl"
-                >
-                  <img src="vlag-nl.png" alt="Nederlands" /></button
-                ><button
-                  type="button"
-                  class="flagButton"
-                  id="langEn"
-                  data-lang="en"
-                >
+                <button type="button" class="flagButton selected" id="langNl" data-lang="nl">
+                  <img src="vlag-nl.png" alt="Nederlands" />
+                </button>
+                <button type="button" class="flagButton" id="langEn" data-lang="en">
                   <img src="vlag-eng.png" alt="English" />
                 </button>
               </div>
             </div>
-            <button id="processBtn" class="primary" disabled>Verwerken</button
-            ><button id="clearBtn" class="secondary">Wissen</button>
+            <div class="actionButtons">
+              <button id="processBtn" class="primary" disabled>Verwerken</button>
+              <button id="clearBtn" class="secondary">Wissen</button>
+            </div>
           </div>
         </section>
         <section class="statsBox">
@@ -598,14 +702,14 @@
               <b id="entityCount">0</b><span>ENTITEIT</span>
             </div>
             <div class="stat">
-              <b id="costCenterCount">0</b><span></span>
+              <b id="costCenterCount">0</b><span>KOSTENPLAATS</span>
             </div>
           </div>
         </section>
       </div>
       <section class="panel">
         <div class="resultsHeader">
-          <div class="resultsTitle">3. Resultaten</div>
+          <div class="resultsTitle">4. Resultaten</div>
           <button id="exportBtn" class="export" disabled>
             <span class="excelIcon" aria-hidden="true"></span
             ><span>Exporteren naar Excel</span>
@@ -820,6 +924,30 @@
               "'": "&#039;",
             })[c],
         );
+      }
+      function registrationDisplay(v) {
+        const raw = String(v ?? "").trim();
+        if (!$('showPlateDashes')?.checked) return raw;
+        const clean = raw.toUpperCase().replace(/[^A-Z0-9]/g, "");
+        if (!clean) return raw;
+        return clean.replace(/([A-Z])(?=[0-9])|([0-9])(?=[A-Z])/g, "$&-");
+      }
+      function selectedMutationTypes() {
+        return {
+          pool: $('includePool').checked,
+          entry: $('includeEntry').checked,
+          contract: $('includeContract').checked,
+          entity: $('includeEntity').checked,
+          costCenter: $('includeCostCenter').checked,
+        };
+      }
+      function mutationSelected(event, selected) {
+        if (["Voertuig naar pool", "Voertuig uit pool"].includes(event)) return selected.pool;
+        if (/^Inzet /.test(event)) return selected.entry;
+        if (["Contractherberekening", "Aanpassing contractduur en/of jaarkilometrage"].includes(event)) return selected.contract;
+        if (event === "Wijziging entiteit") return selected.entity;
+        if (event === "Wijziging kostenplaats") return selected.costCenter;
+        return true;
       }
       function sameValue(a, b) {
         const x = String(a ?? "")
@@ -1250,7 +1378,8 @@
             row.event === "Voertuig naar pool"
               ? ""
               : driverIdFor(row.registration, row.currentDriver, m);
-        S.data = out.sort((x, y) => {
+        const selected = selectedMutationTypes();
+        S.data = out.filter((row) => mutationSelected(row.event, selected)).sort((x, y) => {
           const mc = String(x.event || "").localeCompare(
             String(y.event || ""),
             "nl",
@@ -1269,7 +1398,7 @@
         });
         filter();
         stats();
-        $("exportBtn").disabled = !out.length;
+        $("exportBtn").disabled = !S.data.length;
       }
       function filter() {
         S.visible = S.data;
@@ -1289,6 +1418,8 @@
                     const value =
                       k === "event"
                         ? tr(r[k], "event")
+                        : k === "registration"
+                          ? registrationDisplay(r[k])
                         : format === "currency" && r[k] !== "" && r[k] != null
                           ? new Intl.NumberFormat("nl-NL", {
                               style: "currency",
@@ -1372,6 +1503,7 @@
             for (const [header, key, , format] of C) {
               let value = source[key] ?? "";
               if (key === "event") value = tr(value, "event");
+              if (key === "registration") value = registrationDisplay(value);
               if (format === "date" && value !== "")
                 value = excelDateSerial(value);
               if (format === "integer" && value !== "") {
@@ -1447,6 +1579,7 @@
       $("exportBtn").onclick = excel;
       $("langNl").onclick = () => setLanguage("nl");
       $("langEn").onclick = () => setLanguage("en");
+      $("showPlateDashes").onchange = render;
       for (const [boxId, key] of [
         ["boxMovement", "movement"],
         ["boxRecalc", "recalc"],
