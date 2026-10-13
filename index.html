@@ -592,13 +592,13 @@
             <div class="stat"><b id="poolCount">0</b><span>POOL</span></div>
             <div class="stat"><b id="entryCount">0</b><span>INZET</span></div>
             <div class="stat">
-              <b id="recalcCount">0</b><span>CONTRACTEN</span>
+              <b id="recalcCount">0</b><span>CONTRACT</span>
             </div>
             <div class="stat">
               <b id="entityCount">0</b><span>ENTITEIT</span>
             </div>
             <div class="stat">
-              <b id="costCenterCount">0</b><span>KOSTENPLAATS</span>
+              <b id="costCenterCount">0</b><span></span>
             </div>
           </div>
         </section>
@@ -633,7 +633,7 @@
             <li>Contractmutaties</li>
             <li>Poolmutaties</li>
             <li>Entiteitmutaties</li>
-            <li>Kostenplaatsmutaties</li>
+            <li>mutaties</li>
           </ul>
           <p>
             Selecteer je periode voor mutaties in de datumvakjes, kies een taal
@@ -710,8 +710,8 @@
           ["Berijder huidig/nieuw", "currentDriver", "left", "text"],
           ["Personeelsnummer huidig/nieuw", "currentDriverId", "left", "text"],
           ["Klant", "client", "left", "text"],
-          ["Kostenplaats oud", "oldCostCenter", "left", "text"],
-          ["Kostenplaats huidig/nieuw", "currentCostCenter", "left", "text"],
+          [" oud", "oldCostCenter", "left", "text"],
+          [" huidig/nieuw", "currentCostCenter", "left", "text"],
           ["Entiteit oud", "oldEntity", "left", "text"],
           ["Entiteit huidig/nieuw", "currentEntity", "left", "text"],
           ["Fiscale waarde", "referenceValue", "right", "currency"],
@@ -888,8 +888,8 @@
       }
       function ff(r = {}) {
         const cc = first(r, [
-            "Code Kostenplaats",
-            "Code kostenplaats",
+            "Code ",
+            "Code ",
             "Code cost center",
             "Cost center code",
             "Centre_de_cout",
@@ -898,7 +898,7 @@
             "Cost Centre Code",
           ]),
           cn = first(r, [
-            "Kostenplaats",
+            "",
             "Kosten plaats",
             "Cost center",
             "Cost centre",
