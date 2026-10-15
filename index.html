@@ -734,15 +734,16 @@
             voor je klant te krijgen. Deze bevat:
           </p>
           <ul>
-            <li>Poolmutaties</li>
-            <li>Inzet lease/huur</li>
             <li>Contractmutaties</li>
+            <li>Poolmutaties</li>
             <li>Entiteitmutaties</li>
-            <li>Kostenplaatsmutaties</li>
+            <li>mutaties</li>
           </ul>
           <p>
-            Selecteer je periode voor mutaties in de datumvakjes, vink mutaties uit indien nodig, vink 'Kenteken strepen' aan om de kentekens te voorzien van strepen (standaard uit) en kies een taal
-            (standaard is Nederlands). Druk op Verwerken om meteen resultaten te kunnen zien en exporteren naar Excel. Controleer altijd de data van dit bestand.
+            Selecteer je periode voor mutaties in de datumvakjes, kies een taal
+            (standaard is Nederlands) en druk op Verwerken om meteen resultaten
+            te kunnen zien en exporteren naar Excel. Controleer altijd de data
+            van dit bestand.
           </p>
           <p>
             Zorg ervoor dat deze 3 bestanden ingeregeld staan op een vaste datum
@@ -813,14 +814,15 @@
           ["Berijder huidig/nieuw", "currentDriver", "left", "text"],
           ["Personeelsnummer huidig/nieuw", "currentDriverId", "left", "text"],
           ["Klant", "client", "left", "text"],
-          [" oud", "oldCostCenter", "left", "text"],
-          [" huidig/nieuw", "currentCostCenter", "left", "text"],
+          ["Kostenplaats oud", "oldCostCenter", "left", "text"],
+          ["Kostenplaats huidig/nieuw", "currentCostCenter", "left", "text"],
           ["Entiteit oud", "oldEntity", "left", "text"],
           ["Entiteit huidig/nieuw", "currentEntity", "left", "text"],
           ["Fiscale waarde", "referenceValue", "right", "currency"],
           ["Financiering", "financing", "left", "text"],
           ["Leverancier", "supplier", "left", "text"],
           ["Contractnummer", "contractNumber", "left", "text"],
+          ["Contractversie", "contractVersion", "left", "text"],
           ["Startdatum contract", "contractStart", "right", "date"],
           ["Einddatum contract huidig/nieuw", "newEndDate", "right", "date"],
           ["Looptijd oud", "previousDuration", "right", "integer"],
@@ -948,6 +950,13 @@
         if (event === "Wijziging kostenplaats") return selected.costCenter;
         return true;
       }
+      function contractVersionValue(v) {
+        if (v == null || String(v).trim() === "") return "";
+        const value = Number(String(v).trim().replace(",", "."));
+        if (!Number.isFinite(value)) return "";
+        if (value === 99) return "In behandeling";
+        return String(Math.trunc(value) + 1);
+      }
       function sameValue(a, b) {
         const x = String(a ?? "")
             .trim()
@@ -1065,6 +1074,7 @@
             first(r, ["Supplier", "Leasing Company"]) || "",
           ).toUpperCase(),
           contractNumber: first(r, ["Contract Number", "Contract ID"]),
+          contractVersion: contractVersionValue(first(r, ["Contract Version"])),
           contractStart: first(r, ["Start Date"]),
           newEndDate: first(r, ["End Date"]),
           newDuration: first(r, ["Contract Duration"]),
@@ -1278,6 +1288,7 @@
           Financiering: "Financing",
           Leverancier: "Supplier",
           Contractnummer: "Contract number",
+          Contractversie: "Contract version",
           "Startdatum contract": "Contract start date",
           "Einddatum contract huidig/nieuw": "Current/new contract end date",
           "Looptijd oud": "Previous duration",
@@ -1540,6 +1551,7 @@
                 horizontal: meta[2] === "right" ? "right" : "left",
                 vertical: "middle",
               };
+              if (meta[1] === "contractVersion") cell.numFmt = "General";
               if (meta[3] === "date" && typeof cell.value === "number")
                 cell.numFmt = "d-m-yyyy";
               if (meta[3] === "integer" && typeof cell.value === "number")
