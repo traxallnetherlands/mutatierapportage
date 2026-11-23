@@ -1019,70 +1019,69 @@
         return null;
       }
       function ff(r = {}) {
-        const cc = first(r, [
-            "Code ",
-            "Code ",
-            "Code cost center",
-            "Cost center code",
-            "Centre_de_cout",
-            "Centre de cout",
-            "Cost Center Code",
-            "Cost Centre Code",
-          ]),
-          cn = first(r, [
-            "",
-            "Kosten plaats",
-            "Cost center",
-            "Cost centre",
-            "Centre_de_cout_Libellé",
-            "Centre de cout libellé",
-            "Centre_de_cout_Libelle",
-            "Cost Center",
-            "Cost Centre",
-          ]),
-          ec = first(r, [
-            "Code Entiteit",
-            "Code entiteit",
-            "Entity code",
-            "Code entity",
-          ]),
-          en = first(r, [
-            "Entiteit",
-            "Entity",
-            "Axe_2_Libellé",
-            "Axe_2_Libelle",
-            "Company",
-          ]);
-        return {
-          client: String(
-  z.client || first(r, ["Client"]) || "",
-).toUpperCase(),
-          currentCostCenter: [cc, cn].filter(Boolean).join(" - "),
-          currentEntity: [ec, en].filter(Boolean).join(" - ").toUpperCase(),
-          currentDriver: [
-            first(r, ["Driver First Name"]),
-            first(r, ["Driver Name"]),
-          ]
-            .filter(Boolean)
-            .join(" "),
-          currentDriverId: first(r, ["Driver ID"]),
-          referenceValue: first(r, ["Reference Value"]),
-          financing: first(r, ["Financing Method"]),
-          supplier: String(
-            first(r, ["Supplier", "Leasing Company"]) || "",
-          ).toUpperCase(),
-          contractNumber: first(r, ["Contract Number", "Contract ID"]),
-          contractVersion: contractVersionValue(first(r, ["Contract Version"])),
-          contractStart: first(r, ["Start Date"]),
-          newEndDate: first(r, ["End Date"]),
-          newDuration: first(r, ["Contract Duration"]),
-          newMileage: first(r, ["Contract Mileage"]),
-          newLeaseCost: first(r, ["Monthly Contractual VATex"]),
-          previousDuration: "",
-          previousMileage: "",
-          previousLeaseCost: "",
-        };
-      }
+  const cc = first(r, [
+      "Code ",
+      "Code ",
+      "Code cost center",
+      "Cost center code",
+      "Centre_de_cout",
+      "Centre de cout",
+      "Cost Center Code",
+      "Cost Centre Code",
+    ]),
+    cn = first(r, [
+      "",
+      "Kosten plaats",
+      "Cost center",
+      "Cost centre",
+      "Centre_de_cout_Libellé",
+      "Centre de cout libellé",
+      "Centre_de_cout_Libelle",
+      "Cost Center",
+      "Cost Centre",
+    ]),
+    ec = first(r, [
+      "Code Entiteit",
+      "Code entiteit",
+      "Entity code",
+      "Code entity",
+    ]),
+    en = first(r, [
+      "Entiteit",
+      "Entity",
+      "Axe_2_Libellé",
+      "Axe_2_Libelle",
+      "Company",
+    ]);
+
+  return {
+    client: String(first(r, ["client", "Client"]) || "").toUpperCase(),
+    currentCostCenter: [cc, cn].filter(Boolean).join(" - "),
+    currentEntity: [ec, en].filter(Boolean).join(" - ").toUpperCase(),
+    currentDriver: [
+      first(r, ["Driver First Name"]),
+      first(r, ["Driver Name"]),
+    ]
+      .filter(Boolean)
+      .join(" "),
+    currentDriverId: first(r, ["Driver ID"]),
+    referenceValue: first(r, ["Reference Value"]),
+    financing: first(r, ["Financing Method"]),
+    supplier: String(
+      first(r, ["Supplier", "Leasing Company"]) || "",
+    ).toUpperCase(),
+    contractNumber: first(r, ["Contract Number", "Contract ID"]),
+    contractVersion: contractVersionValue(first(r, ["Contract Version"])),
+    contractStart: first(r, ["Start Date"]),
+    newEndDate: first(r, ["End Date"]),
+    newDuration: first(r, ["Contract Duration"]),
+    newMileage: first(r, ["Contract Mileage"]),
+    newLeaseCost: first(r, ["Monthly Contractual VATex"]),
+    previousDuration: "",
+    previousMileage: "",
+    previousLeaseCost: "",
+  };
+}
       function within(d, a, b) {
         return d && (!a || d >= a) && (!b || d <= b);
       }
