@@ -1054,7 +1054,9 @@
             "Company",
           ]);
         return {
-          client: String(first(r, ["client", "Client"]) || "").toUpperCase(),
+          client: String(
+  z.client || first(r, ["Client"]) || "",
+).toUpperCase(),
           currentCostCenter: [cc, cn].filter(Boolean).join(" - "),
           currentEntity: [ec, en].filter(Boolean).join(" - ").toUpperCase(),
           currentDriver: [
@@ -1332,12 +1334,24 @@
             ...analyticEvents(m, a, b),
           ];
         for (const r of S.recalc) {
-          const d = asDate(r["Amendment date"]),
-            recalcClient = first(r, ["Client"]);
-          if (!within(d, a, b) || !clients.has(clientKey(recalcClient)))
-            continue;
-          const reg = first(r, ["Registration"]),
-            z = ff(find(m, reg, first(r, ["Contract ID"])) || {}),
+  const d = asDate(r["Amendment date"]);
+
+  if (!within(d, a, b))
+    continue;
+
+  const reg = first(r, ["Registration"]);
+  const contractId = first(r, ["Contract ID"]);
+
+  // Zoek het voertuig in het Full Fleetoverview.
+  // Eerst op kenteken, daarna op contractnummer.
+  const fleetMatch = find(m, reg, contractId);
+
+  // Alleen contractherberekeningen meenemen van voertuigen
+  // die daadwerkelijk in het geüploade Full Fleetoverview voorkomen.
+  if (!fleetMatch)
+    continue;
+
+  const z = ff(fleetMatch),
             changed =
               !sameValue(
                 first(r, ["New Duration"]),
@@ -1356,8 +1370,8 @@
             previousDriver: "",
             ...z,
             client: String(
-              first(r, ["Client"]) || z.client || "",
-            ).toUpperCase(),
+  z.client || first(r, ["Client"]) || "",
+).toUpperCase(),
             currentEntity:
               [first(r, ["Company Code"]), first(r, ["Company"])]
                 .filter(Boolean)
